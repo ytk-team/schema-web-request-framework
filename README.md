@@ -72,19 +72,19 @@ ajv_validator.js
 ```js
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const BaseValidator = reuqire('@qtk/schema-tcp-request-framework').Validator;
+const BaseValidator = require('@qtk/schema-tcp-request-framework').Validator;
 module.exports = class AjvValidator extends BaseValidator {
     requestCheck({command, instance, schema}) { //服务端收到请求后，对数据做校验，command为接口名，instance为请求报文，schema为对应接口schema的request接口数据
         let validator = ajv.compile(schema);
         if (!validator(instance)) {
-            throw new Error(`invalid ${command} request\n instance: ${JSON.stringify(instance)}\n schema: ${JSON.stringify(schema)}\n error: ${ajv.errorsText(validator.errors())}`);
+            throw new Error(`invalid ${command} request\n instance: ${JSON.stringify(instance)}\n schema: ${JSON.stringify(schema)}\n error: ${ajv.errorsText(validator.errors)}`);
         }
     }
 
     responseCheck({command, instance, schema}) { //客户端收到服务端返回数据后，对数据做校验，command为接口名，instance为返回报文，schema为对应接口schema的response接口数据
         let validator = ajv.compile(schema);
         if (!validator(instance)) {
-            throw new Error(`invalid ${command} response\n instance: ${JSON.stringify(instance)}\n schema: ${JSON.stringify(schema)}\n error: ${ajv.errorsText(validator.errors())}`);
+            throw new Error(`invalid ${command} response\n instance: ${JSON.stringify(instance)}\n schema: ${JSON.stringify(schema)}\n error: ${ajv.errorsText(validator.errors)}`);
         }
     }
 }
