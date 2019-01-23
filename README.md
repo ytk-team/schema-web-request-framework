@@ -64,6 +64,15 @@ const response = await client.send({
 console.log(response); //输出hello
 ```
 
+## 对客户端抛错
+有时服务端handler里在报错时想要同时给客户端返回错误码,这时可以使用框架提供的BusinessError类.
+BusinessError类有两个属性:``code``, ``message``,分别对应错误码及错误信息.
+在handler里抛BusinessError,那么客户端也会收到回应后也会抛BusinessError,包含服务端给回的``code``及``message``.
+目前客户端会有三种Error类型: ``Error``,``BusinessError``,``ValidationError``.
+- schema校验失败的话就会抛``ValidationError``
+- handler主动抛业务错``BusinessError``
+- 其他出错情况抛``Error``
+
 ## 自定义Schema语法&&数据校验器
 默认使用的是基于JSON Schema语法封装的[Semantic Schema](https://www.npmjs.com/package/semantic-schema),若想自定义语法的话，Schema文件需保证导出request及response节点，同时重写校验器．以上面例子为例，演示基于原生JSON Schema及ajv库数据校验
 
