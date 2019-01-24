@@ -59,7 +59,8 @@ let server = new Server({
     handlerDir: `${__dirname}/handler`, // your handler folder
     schemaDir: `${__dirname}/schema`, // your schema folder
     //middlewares: [], default to []
-    //route: i => i default to i => i
+    //route: i => i default to i => i,
+    //errorMiddleware = undefined //you can response anything when error to replace default error middleware
 });
 
 server.on("error", (err) => {

@@ -3,7 +3,6 @@ const SchemaResolver = require('../common/schema_resolver');
 const JsonBodyParser = require('./json_body_parser');
 const StateParser = require('./state_parser');
 const EventEmitter = require('events').EventEmitter;
-const WebError = require('../error');
 
 module.exports = class extends EventEmitter {
 
@@ -12,28 +11,23 @@ module.exports = class extends EventEmitter {
         handlerDir, 
         schemaDir, 
         middlewares = [],
-        errorDetail = false,
-        route = i => i
+        route = i => i,
+        errorMiddleware = undefined
     }) {
         super();
         this._host = host;
         this._port = port;
-        this._errorDetail = errorDetail;
         this._app = new Express();
         this._app.use(JsonBodyParser);
         this._app.post('/*', this._executor(handlerDir, schemaDir, middlewares, route));
-        this._app.use((err, req, res, next) => {
+        this._app.use((err, request, response, next) => {
             if(err) {
                 this.emit('error', err);
-                let webError = WebError.fromError(err);
-                if(this._errorDetail) {
-                    res.status(500).json({
-                        code: webError.code,
-                        stack: webError.stack
-                    });
+                if (errorMiddleware != undefined) {
+                    errorMiddleware(err, request, response);
                 }
                 else {
-                    res.status(500).json({code: webError.code});
+                    response.status(500).json({code: err.code || 0, message: err.message});
                 }
             }
         });
@@ -55,7 +49,8 @@ module.exports = class extends EventEmitter {
                 let payload = {
                     state: StateParser(req),
                     constant: apiSchema.constant,
-                    request: req.body.request
+                    request: req.body.request,
+                    headers: req.headers
                 };
 
                 for (let middleware of middlewares) {

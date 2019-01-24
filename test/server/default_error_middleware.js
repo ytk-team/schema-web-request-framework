@@ -14,8 +14,7 @@ let server = new Server({
     port: 3005,
     handlerDir: `${__dirname}/handler`,
     schemaDir: `${__dirname}/../schema`,
-    middlewares: [demoMiddleware],
-    errorDetail: true
+    middlewares: [demoMiddleware]
 });
 
 server.on("error", (err) => {

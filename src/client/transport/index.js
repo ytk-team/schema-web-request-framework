@@ -82,11 +82,8 @@ module.exports = class  Transport {
                 else if (response.statusCode == 200) {
                     return resolve(body['response']);
                 }
-                else if (response.statusCode == 500) {
-                    return reject(new Error('server returned error as 500', '网络出错啦'));
-                }
                 else {
-                    return reject(new Error(`unexpected status(${response.statusCode}) returned by the server`));
+                    return reject(body || {});
                 }
             })
         })

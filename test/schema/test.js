@@ -1,4 +1,4 @@
-const {string, object, integer} = require('semantic-schema').describer;
+const {string, object, integer} = require('semantic-schema').schema;
 
 const info = {
     title: "测试接口",

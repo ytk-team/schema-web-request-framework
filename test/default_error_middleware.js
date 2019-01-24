@@ -1,4 +1,4 @@
-require('./server');
+require('./server/default_error_middleware');
 const client = require('./client');
 const assert = require('assert');
 
@@ -8,9 +8,9 @@ describe("#request", function() {
         assert(response.requestField === 'hi', 'incorrect response');
     });
 
-    it('should return 500', async function () {
+    it('should return error', async function () {
         await client.call("error.test", "hi").catch(err => {
-            assert (err.message == "server returned error as 500", 'incorrect response');
+            assert (err.message == "error", 'incorrect response');
         });
     });
 
