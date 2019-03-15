@@ -1,5 +1,6 @@
 module.exports = {
     Server: require("./src/server"),
     Client: require("./src/client"),
-    Error: require('./src/error')
+    BusinessError: require("./src/error/business"),
+    ValidationError: require("./src/error/validation")
 }

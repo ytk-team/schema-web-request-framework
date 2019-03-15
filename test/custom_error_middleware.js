@@ -8,9 +8,9 @@ describe("#request", function() {
         assert(response.requestField === 'hi', 'incorrect response');
     });
 
-    it('should return web_error', async function () {
-        await client.call("web_error.test", "hi").catch(err => {
-            assert (err.message == "web_error", 'incorrect response');
+    it('should return business_error', async function () {
+        await client.call("business_error.test", "hi").catch(err => {
+            assert (err.message == "business_error", 'incorrect response');
         });
     });
 

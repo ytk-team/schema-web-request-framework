@@ -1,5 +1,5 @@
 const Server = require('../../src/server');
-const WebError = require('../..').Error;
+const BusinessError = require('../..').BusinessError;
 
 let demoMiddleware = {
     pattern: '(.*)', //match all interface
@@ -15,7 +15,7 @@ let server = new Server({
     schemaDir: `${__dirname}/../schema`,
     middlewares: [demoMiddleware],
     errorMiddleware: (error, request, response) => {
-        if (error instanceof WebError) {
+        if (error instanceof BusinessError) {
             response.status(666).json({code: error.code, message: error.message});
         }
         else {

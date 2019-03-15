@@ -1,6 +1,6 @@
 {
     "name": "@qtk/schema-web-request-framework",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "description": "schema-web-request-framework",
     "main": "build.js",
     "scripts": {},
