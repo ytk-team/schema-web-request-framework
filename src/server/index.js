@@ -35,7 +35,7 @@ module.exports = class extends EventEmitter {
         });
         //抛错进入以下逻辑
         this._app.use(async(err, request, response, next) => {
-            this.emit('server_error', err);
+            this.emit('error', err);
             if (customResponseHandler !== undefined) {
                 await customResponseHandler(err, request._payload, response._outgoing, response);
             }
