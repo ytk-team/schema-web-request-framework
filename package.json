@@ -1,6 +1,6 @@
 {
     "name": "@qtk/schema-web-request-framework",
-    "version": "2.0.4",
+    "version": "2.1.1",
     "description": "schema-web-request-framework",
     "main": "build.js",
     "scripts": {},
@@ -12,6 +12,7 @@
         "url": "git+https://github.com/vanchu001/schema-web-request-framework.git"
     },
     "dependencies": {
+        "@qtk/schema": "0.0.3",
         "ajv": "^5.5.2",
         "ajv-keywords": "^2.1.1",
         "body-parser": "^1.18.2",
@@ -19,7 +20,6 @@
         "express": "^4.16.2",
         "fs": "0.0.1-security",
         "iconv-lite": "^0.4.19",
-        "request": "^2.83.0",
-        "semantic-schema": "^0.3.1"
+        "request": "^2.83.0"
     }
 }

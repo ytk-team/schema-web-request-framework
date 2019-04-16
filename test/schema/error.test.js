@@ -1,4 +1,4 @@
-const {string, object, integer} = require('semantic-schema').schema;
+const {string, object, integer} = require('@qtk/schema').schema;
 
 const info = {
     title: "测试接口",
