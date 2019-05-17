@@ -1,6 +1,6 @@
 const Client = require("../../").Client;
 const serverIp = "127.0.0.1";
-const serverPort = 3005;
+const serverPort = 23106;
 
 module.exports = new Client({
     host: serverIp,

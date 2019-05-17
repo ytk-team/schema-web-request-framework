@@ -54,13 +54,16 @@ module.exports = class extends EventEmitter {
     _executor(handlerDir, middlewares, route) {
         return async (req, res, next) => {
             try {
+                let command = route(req.originalUrl.replace(/^\//, ''));
+
                 req._payload = {
+                    command,
                     state: StateParser(req),
                     request: req.body.request,
                     headers: req.headers
                 };
 
-                let command = route(req.originalUrl.replace(/^\//, ''));
+
                 this.emit('request_start', command);
                 
                 let commandSchema = this._validator.getSchema(command);

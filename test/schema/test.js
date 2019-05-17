@@ -13,11 +13,11 @@ const constant = {
     }
 };
 const request = string().desc("请求的内容");
-const response = object().requiredAll().desc("原文返回请求的内容").properties({
+const response = object().desc("原文返回请求的内容").properties({
     requestField: string().desc("请求的内容"),
     responseStatus: integer()
         .enum(...Object.values(constant.ResponseStatus))
         .desc(`请求结果:${JSON.stringify(constant.ResponseStatus)}`)
-});
+}).requireAll();
 
 module.exports = {info, request, response, constant};
