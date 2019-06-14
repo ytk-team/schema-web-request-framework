@@ -4,13 +4,18 @@ module.exports = class {
     constructor(schemaDir, Validator) {
         this._schemaDir = schemaDir;
         this._validator = new Validator();
+        this._schemaCache = new Map();
     }
 
     getSchema(command) {
         if(!command) throw new Error('command must be provided.');
         let schema;
         try {
-            schema = require(`${this._schemaDir}/${command}`)
+            schema = this._schemaCache.get(`${this._schemaDir}/${command}`);
+            if (schema === undefined) {
+                schema = require(`${this._schemaDir}/${command}`);
+                this._schemaCache.set(`${this._schemaDir}/${command}`, schema);
+            }
         }
         catch(err) {
             throw new Error(`invalid schema ${command}, error: ${err.stack}`)
@@ -34,7 +39,7 @@ module.exports = class {
             this._validator.requestCheck({command, instance, schema: schema.request})
         }
         catch (error) {
-            throw new ValidationError(error.message, {command, instance, schema});            
+            throw new ValidationError(error.message, {command, instance, schema, side: "request"});            
         }
     }
 
@@ -43,7 +48,7 @@ module.exports = class {
             this._validator.responseCheck({command, instance, schema: schema.response})
         }
         catch (error) {
-            throw new ValidationError(error.message, {command, instance, schema});            
+            throw new ValidationError(error.message, {command, instance, schema, side: "response"});            
         }
     }
 

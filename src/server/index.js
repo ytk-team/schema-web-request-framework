@@ -43,6 +43,8 @@ module.exports = class extends EventEmitter {
                 response.status(500).json({code: err.code || 0, message: err.message});
             }
         });
+
+        this._handlerCache = new Map();
     }
     
     start() {
@@ -81,7 +83,12 @@ module.exports = class extends EventEmitter {
                 }
 
                 this._validator.requestCheck({command, instance: req._payload.request, schema: commandSchema});
-                let outgoing = await require(`${handlerDir}/${command}`)(req._payload);
+                let handler = this._handlerCache.get(`${handlerDir}/${command}`);
+                if (handler === undefined) {
+                    handler = require(`${handlerDir}/${command}`);
+                    this._handlerCache.set(`${handlerDir}/${command}`, handler);
+                }
+                let outgoing = await handler(req._payload);
                 if(outgoing === undefined) outgoing = null;
                 this._validator.responseCheck({command, instance: outgoing, schema: commandSchema});
                 res._outgoing = outgoing;
